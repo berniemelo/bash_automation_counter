@@ -1,0 +1,120 @@
+#!/bin/csh
+
+set counter = 0
+set array_bash = ()
+cd ..
+cd temp
+set array_ls = (`ls`)
+foreach file ($array_ls)
+        set output = (`file $file | tr -d ':'`)
+        if ( "$output[2]" == "Bourne-Again" ) then
+        @ counter = $counter + 1
+
+        endif
+
+end
+echo "There are $counter bash scripts"
+echo -n "["
+
+foreach file ($array_ls)
+        set output = (`file $file | tr -d ':'`)
+        if ( "$output[2]" == "Bourne-Again" ) then
+        @ counter = $counter + 1
+         echo -n " $output[1] "
+         endif
+end
+echo -n "]"
+set array = (`find . -type f -perm 644 | tr -d './'`)
+set counter = 0
+foreach file ($array)
+        set check_if_bash = `head -n 1 $file`
+        if ( `echo $check_if_bash | grep -c "bash"` == 1 ) then
+        if ( ! (-x $file )) then
+         @ counter = $counter + 1
+        endif
+        if ( $counter == 1) then
+        printf "\n"
+        echo -n "no executable : "
+         @ counter = $counter + 1
+        endif
+                if ( ! (-x $file )) then
+                echo -n " $file "
+                endif
+        endif
+end
+set array = (`find . -type f -perm 755 | tr -d './'`)
+set counter = 0
+
+foreach file ($array)
+        set check_if_bash = `head -n 1 $file`
+      if ( `echo $check_if_bash | grep -c "bash"` == 1) then
+if ( (-x $file )) then
+ @ counter = $counter + 1
+endif
+if ( $counter == 1) then
+printf "\n"
+echo -n "executable : "
+ @ counter = $counter + 1
+endif
+               if ( -x $file )  then
+                 echo -n " $file "
+              endif
+        endif
+
+end
+printf "\n"
+set counter = 0
+foreach file ($array_ls)
+        set output = (`file $file | tr -d ':'`)
+        if ( "$output[2]" == "C" ) then
+        @ counter = $counter + 1
+        endif
+end
+echo "There are $counter c-shell scripts"
+echo -n "["
+
+foreach file ($array_ls)
+        set output = (`file $file | tr -d ':'`)
+
+               if ( "$output[2]" == "C" ) then
+                @ counter = $counter + 1
+                echo -n " $output[1] "
+                endif
+end
+echo -n "]"
+set counter = 0
+foreach file ($array)
+        set check_if_bash = `head -n 1 $file`
+        if ( `echo $check_if_bash | grep -c "csh"` == 1 ) then
+        if ( ! (-x $file )) then
+         @ counter = $counter + 1
+        endif
+        if ( $counter == 1) then
+        printf "\n"
+        echo -n "no executable : "
+         @ counter = $counter + 1
+        endif
+         if ( ! (-x $file )) then
+                echo -n " $file "
+                endif
+        endif
+end
+set counter = 0
+foreach file ($array)
+        set check_if_bash = `head -n 1 $file`
+      if ( `echo $check_if_bash | grep -c "csh"` == 1) then
+
+        if ( (-x $file )) then
+         @ counter = $counter + 1
+        endif
+        if ( $counter == 1) then
+        printf "\n"
+        echo -n " executable : "
+         @ counter = $counter + 1
+        endif
+               if ( -x $file )  then
+                 echo -n " $file "
+              endif
+        endif
+end
+printf "\n"

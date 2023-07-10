@@ -11,7 +11,6 @@ foreach file ($array_ls)
         @ counter = $counter + 1
 
         endif
-
 end
 echo "There are $counter bash scripts"
 echo -n "["
